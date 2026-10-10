@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef3f1">
+  <title>漫游清单 · 京都</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">◉</span><span>漫游清单<span class="brand-en"> / ROAM</span></span></div>
+      <div class="top-right"><span class="offline-dot" aria-hidden="true"></span>本机保存 <span class="top-divider">/</span> 京都行程</div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div><p class="eyebrow">KYOTO · TRIP BOARD</p><h1 id="page-title">把抵达后的事，<br><em>一件件走完。</em></h1><p class="intro-copy">收好待办、定好日期，点开一项看看它在路线上的位置。</p></div>
+        <div class="trip-stamp" aria-label="京都行程"><span>旅程目的地</span><strong>京都</strong><small>JAPAN · 35°N 135°E</small></div>
+      </section>
+
+      <section class="workspace" aria-label="行程待办工作区">
+        <div class="tasks-panel">
+          <div class="section-top"><div><p class="panel-kicker">01 / PLAN</p><h2>行程待办 <span id="task-count" class="count">0</span></h2></div><button id="export-button" class="export-button" type="button" title="导出全部待办为 Markdown">↗ 导出清单</button></div>
+          <div class="progress-wrap"><div class="progress-label"><span>旅程进度</span><strong id="progress-text">0 / 0 已完成</strong></div><div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div></div>
+          <form id="task-form" class="task-form" novalidate>
+            <label for="task-title">新增待办</label>
+            <div class="form-title-row"><input id="task-title" name="title" placeholder="例如：在京都站领取交通卡" maxlength="80" required autocomplete="off"><button type="submit" class="add-button" aria-label="添加待办">＋</button></div>
+            <div class="form-bottom"><div class="field"><label for="task-date">执行日期</label><input id="task-date" name="date" type="date" required></div><div class="field"><label for="task-place">关联地点</label><select id="task-place" name="place"><option value="station">京都站</option><option value="nishiki">锦市场</option><option value="kiyomizu">清水寺</option><option value="fushimi">伏见稻荷</option><option value="arashiyama">岚山</option></select></div></div>
+            <p id="form-error" class="form-error" role="alert" aria-live="polite"></p>
+          </form>
+          <div class="list-heading"><span>我的任务</span><span>点击任务查看路线</span></div>
+          <ul id="task-list" class="task-list" aria-label="待办事项"></ul>
+          <p id="empty-state" class="empty-state" hidden>还没有待办。先添加一件抵达后要做的事。</p>
+        </div>
+
+        <aside class="map-panel" aria-labelledby="map-heading">
+          <div class="map-head"><div><p class="panel-kicker">02 / EXPLORE</p><h2 id="map-heading">地点路线</h2></div><span class="map-chip">路线预览</span></div>
+          <div class="map-stage" role="img" aria-label="京都示意地图，显示从京都站前往所选地点的路线">
+            <svg id="map" viewBox="0 0 620 660" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs><pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#d8e3dd" stroke-width="1"/></pattern><filter id="pin-shadow" x="-100%" y="-100%" width="300%" height="300%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#1d3b35" flood-opacity=".18"/></filter></defs>
+              <rect width="620" height="660" fill="#eaf0e9"/><rect width="620" height="660" fill="url(#grid)" opacity=".72"/>
+              <path class="river" d="M405 -15 C388 100 420 190 398 280 S357 415 382 504 S430 624 408 680"/>
+              <path class="road major" d="M38 148 C175 180 279 156 592 140 M24 340 C170 305 300 342 600 318 M45 526 C183 501 350 512 592 488 M163 20 C156 186 189 354 166 648 M317 5 C326 217 303 415 322 660 M523 10 C501 202 536 404 508 652"/>
+              <path class="road minor" d="M78 15 L94 647 M243 0 L251 660 M451 0 L463 660 M28 244 C182 238 400 242 595 224 M35 420 C180 400 380 426 606 399 M26 590 C192 579 423 582 594 562"/>
+              <path class="park" d="M465 43 l101 6 14 88 -86 10 -32 -47z M34 397 l98 -21 48 62 -23 75 -105 -9z M432 518 l113 -19 33 83 -99 31 -49 -46z"/>
+              <text class="area-label" x="75" y="89">嵐 山</text><text class="area-label" x="442" y="214">東 山</text><text class="area-label" x="333" y="606">伏 見</text><text class="river-label" x="400" y="392" transform="rotate(83 400 392)">鴨 川</text>
+              <path id="route-halo" class="route-halo" d=""/><path id="route-line" class="route-line" d=""/>
+              <g class="place" data-place="station" transform="translate(298 467)"><circle class="place-ring" r="14"/><circle class="place-dot" r="6"/><text x="19" y="5">京都站</text></g>
+              <g class="place" data-place="nishiki" transform="translate(275 304)"><circle class="place-ring" r="14"/><circle class="place-dot" r="6"/><text x="19" y="5">锦市场</text></g>
+              <g class="place" data-place="kiyomizu" transform="translate(502 268)"><circle class="place-ring" r="14"/><circle class="place-dot" r="6"/><text x="-83" y="-19">清水寺</text></g>
+              <g class="place" data-place="fushimi" transform="translate(372 571)"><circle class="place-ring" r="14"/><circle class="place-dot" r="6"/><text x="-101" y="-18">伏见稻荷</text></g>
+              <g class="place" data-place="arashiyama" transform="translate(106 163)"><circle class="place-ring" r="14"/><circle class="place-dot" r="6"/><text x="19" y="5">岚山</text></g>
+              <circle id="traveler" cx="298" cy="467" r="7"/>
+            </svg>
+            <div class="map-compass" aria-hidden="true">N ↑</div><div class="map-scale" aria-hidden="true">京都 · 示意地图</div>
+          </div>
+          <div class="route-caption"><span class="route-caption-icon">↗</span><div><small>当前路线</small><strong id="route-name">选择左侧任务，查看对应路线</strong></div></div>
+          <p class="map-disclaimer">路线为演示示意，不提供真实导航。</p>
+        </aside>
+      </section>
+    </main>
+    <footer>ROAM / KYOTO <span>把计划变成出发。</span></footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
